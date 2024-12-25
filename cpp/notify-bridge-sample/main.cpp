@@ -1,13 +1,13 @@
 #include <iostream>
+
 #include "observer_api.h"
 
 int main()
 {
-    // TODO: Invesigate "addSubscriber"
-    IEventSubscriber* subscriberA = createSubscriber();
-    std::cout << "Subscriber created: " << subscriberA << std::endl;
+    IObserver* observerA = createObserver();
+    std::cout << "Observer created: " << observerA << std::endl;
 
-    ApiResult createSubscribeResult = addSubscriber(subscriberA);
+    ApiResult createSubscribeResult = addObserver(observerA);
 
     if (createSubscribeResult != ApiResult::SUCCESS)
     {
@@ -16,22 +16,22 @@ int main()
         return -1;
     }
 
-    std::cout << "Subscriber added successfully" << std::endl;
+    std::cout << "Observer added successfully" << std::endl;
 
     ApiResult notifyResult;
     notifyResult = notifySubscribers(EventType::EVENT_A, "Hello, world!");
     notifyResult = notifySubscribers(EventType::EVENT_B, "Bye bye!");
 
-    ApiResult removeSubscriberResult = removeSubscriber(subscriberA);
+    ApiResult removeObserverResult = removeObserver(observerA);
 
-    if (removeSubscriberResult != ApiResult::SUCCESS)
+    if (removeObserverResult != ApiResult::SUCCESS)
     {
-        std::cout << "Failed to remove subscriber" << std::endl;
+        std::cout << "Failed to remove observer" << std::endl;
 
         return -1;
     }
 
-    std::cout << "Subscriber removed successfully" << std::endl;
+    std::cout << "Observer removed successfully" << std::endl;
 
 
 

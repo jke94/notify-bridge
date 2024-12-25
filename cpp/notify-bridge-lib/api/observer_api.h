@@ -31,18 +31,18 @@ enum class ApiResult
     FAILURE = 1
 };
 
-class IEventSubscriber
+class IObserver
 {
 public:
-    virtual ~IEventSubscriber() {};
+    virtual ~IObserver() {};
     virtual void OnEvent(const std::string& message) = 0;
 };
 
 // Prototipos de las funciones exportadas
 
-extern "C" API_EXPORT IEventSubscriber* createSubscriber();
-extern "C" API_EXPORT ApiResult addSubscriber(IEventSubscriber* subscriber);
-extern "C" API_EXPORT ApiResult removeSubscriber(IEventSubscriber* subscriber);
+extern "C" API_EXPORT IObserver* createObserver();
+extern "C" API_EXPORT ApiResult addObserver(IObserver* observer);
+extern "C" API_EXPORT ApiResult removeObserver(IObserver* observer);
 extern "C" API_EXPORT ApiResult notifySubscribers(EventType eventType, const char* message);
 
 #endif // OBSERVER_API_H

@@ -1,63 +1,54 @@
 #include "observer_api.h"
 #include "EventNotifier.h"
+#include "Observer.h"
+#include <algorithm>
 #include <map>
 #include <iostream>
 #include <string>
+#include <vector>
 
 // Manejador global del EventNotifier
 static EventNotifier notifier;
 
 // Map para convertir los punteros de C# a instancias concretas
-static std::map<void*, IEventSubscriber*> subscribersMap;
+static std::vector<IObserver*> subscribersVector;
 
-class Subscriber : public IEventSubscriber
+IObserver* createObserver()
 {
-public:
-    Subscriber() = default;
-
-    void OnEvent(const std::string& message) override
-    {
-        // TODO: Implementar
-        std::cout << "I am subscriber " << this << ". Event received: " << message << std::endl;
-    }
-};
-
-IEventSubscriber* createSubscriber()
-{
-    return new Subscriber();
+    return new Observer();
 }
 
-ApiResult addSubscriber(IEventSubscriber* subscriber)
+ApiResult addObserver(IObserver* observer)
 {
-    if (!subscriber)
+    if (!observer)
     {
         return ApiResult::FAILURE;
     }
 
-    auto it = subscribersMap.find(subscriber);
-    if (it != subscribersMap.end())
+    if(std::find(subscribersVector.begin(), subscribersVector.end(), observer) != subscribersVector.end())
     {
-        return ApiResult::FAILURE; // Ya registrado
+        return ApiResult::FAILURE; // Observer already added.
     }
 
-    IEventSubscriber* cppSubscriber = static_cast<IEventSubscriber*>(subscriber);
-    notifier.addSubscriber(cppSubscriber);
-    subscribersMap[subscriber] = cppSubscriber;
+    notifier.addSubscriber(observer);
+    subscribersVector.push_back(observer);
 
     return ApiResult::SUCCESS;
 }
 
-ApiResult removeSubscriber(IEventSubscriber *subscriber)
+ApiResult removeObserver(IObserver* observer)
 {
-    auto it = subscribersMap.find(subscriber);
-
-    if (it == subscribersMap.end())
+    if(std::find(subscribersVector.begin(), subscribersVector.end(), observer) == subscribersVector.end())
     {
-        return ApiResult::FAILURE;        
+        return ApiResult::FAILURE; // Observer not found.
     }
 
-    notifier.removeSubscriber(it->second);
-    subscribersMap.erase(it);
+    subscribersVector.erase(
+        std::remove(
+            subscribersVector.begin(), 
+            subscribersVector.end(), 
+            observer), 
+            subscribersVector.end());
 
     return ApiResult::SUCCESS;
 }
