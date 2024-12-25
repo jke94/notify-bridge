@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <iostream>
 
-#include "observer.h"
+#include "EventNotifier.h"
 #include "observer_api.h"
 
-void EventNotifier::AddSubscriber(IEventSubscriber* subscriber)
+void EventNotifier::addSubscriber(IEventSubscriber* subscriber)
 {
     if (subscriber)
     {
@@ -12,12 +12,12 @@ void EventNotifier::AddSubscriber(IEventSubscriber* subscriber)
     }
 }
 
-void EventNotifier::RemoveSubscriber(IEventSubscriber* subscriber)
+void EventNotifier::removeSubscriber(IEventSubscriber* subscriber)
 {
     subscribers_.erase(std::remove(subscribers_.begin(), subscribers_.end(), subscriber), subscribers_.end());
 }
 
-void EventNotifier::Notify(EventType eventType, const std::string& message)
+void EventNotifier::notify(EventType eventType, const std::string& message)
 {
     for (auto* subscriber : subscribers_)
     {

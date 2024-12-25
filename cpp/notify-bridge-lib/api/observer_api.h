@@ -2,6 +2,7 @@
 #define OBSERVER_API_H
 
 #include <cstdint>
+#include <string>
 
 #if defined(_WIN32) || defined(_WIN64)
     #ifdef EXPORT_SYMBOLS
@@ -20,7 +21,7 @@ enum class EventType
 {
     EVENT_A = 0,
     EVENT_B = 1,
-    EVENT_C = 2,
+    EVENT_C = 2
 };
 
 // Resultado de las operaciones
@@ -30,9 +31,18 @@ enum class ApiResult
     FAILURE = 1
 };
 
+class IEventSubscriber
+{
+public:
+    virtual ~IEventSubscriber() {};
+    virtual void OnEvent(const std::string& message) = 0;
+};
+
 // Prototipos de las funciones exportadas
-extern "C" API_EXPORT ApiResult AddSubscriber(void* subscriber);
-extern "C" API_EXPORT ApiResult RemoveSubscriber(void* subscriber);
-extern "C" API_EXPORT void NotifySubscribers(EventType eventType, const char* message);
+
+extern "C" API_EXPORT IEventSubscriber* createSubscriber();
+extern "C" API_EXPORT ApiResult addSubscriber(IEventSubscriber* subscriber);
+extern "C" API_EXPORT ApiResult removeSubscriber(IEventSubscriber* subscriber);
+extern "C" API_EXPORT ApiResult notifySubscribers(EventType eventType, const char* message);
 
 #endif // OBSERVER_API_H
