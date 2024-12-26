@@ -1,12 +1,12 @@
 #include <iostream>
+#include <functional>
 
 #include "Display.h"
 
-void Display::update(float temperature, float humidity, float pressure)
+void Display::update(float temp, float hum, float press, void(*notification)(float, float, float))
 {
-    std::cout << "I am observer " << this 
-                << ", Display: Temperature = " << temperature
-                << "°C, Humidity = " << humidity
-                << "%, Pressure = " << pressure << " hPa"
-                << std::endl;    
+    if(notification)
+    {
+        notification(temp, hum, press);
+    }
 }

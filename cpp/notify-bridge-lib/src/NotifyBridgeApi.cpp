@@ -13,9 +13,12 @@ extern "C" API_EXPORT IObserver* createObserver()
     return display;
 }
 
-extern "C" API_EXPORT ApiResult registerObserver(IObserver* observer)
+extern "C" API_EXPORT ApiResult registerObserver(
+    IObserver* observer, 
+    void(*notification)(float, float, float)
+)
 {
-    wheatherStation_->registerObserver(observer);
+    wheatherStation_->registerObserver(observer, notification);
 
     return ApiResult::SUCCESS; // TODO: Implement logic.
 }

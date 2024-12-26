@@ -4,23 +4,31 @@
 #include "NotifyBridgeApi.h"
 #include "WeatherStation.h"
 
-void WeatherStation::registerObserver(IObserver* observer) 
+void WeatherStation::registerObserver(
+    IObserver* observer,
+    void(*notification)(float temp, float hum, float press)
+) 
 {
-    observers.push_back(observer);
+    observers_.push_back(std::make_pair(observer, notification));
 }
 
 void WeatherStation::removeObserver(IObserver* observer) 
 {
-    observers.erase(std::find(observers.begin(), observers.end(), observer));
+    auto it = std::find_if(observers_.begin(), observers_.end(),
+                [&](const auto& pair) {
+                    return pair.first == observer; 
+                });
+
+    observers_.erase(it);
 }
 
 void WeatherStation::notifyObservers() 
 {
-    for (IObserver* observer : observers) 
+    for (std::pair<IObserver*, void(*)(float, float, float)> observer : observers_) 
     {
-        observer->update(temperature, humidity, pressure);
+        observer.second(temperature, humidity, pressure);
     }
-}
+}    
 
 void WeatherStation::setMeasurements(float temp, float hum, float press) 
 {

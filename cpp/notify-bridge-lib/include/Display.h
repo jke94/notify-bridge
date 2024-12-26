@@ -6,7 +6,11 @@
 class Display : public IObserver 
 {
 public:
-    void update(float temperature, float humidity, float pressure) override;
+    void update(
+        float temp, 
+        float hum, 
+        float press,
+        void(*notification)(float, float, float)) override;
 };
 
 #endif // DISPLAY_H
