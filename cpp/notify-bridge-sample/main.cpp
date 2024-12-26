@@ -3,23 +3,10 @@
 
 #include "NotifyBridgeApi.h"
 
+void OnEventA(float temp, float hum, float press);
+void OnEventB(float temp, float hum, float press);
+
 std::ostream& operator<<(std::ostream& os, ApiResult result);
-
-void OnEventA(float temp, float hum, float press)
-{
-    std::cout << "I am A - Display: Temperature = " << temp
-                << "°C, Humidity = " << hum
-                << "%, Pressure = " << press << " hPa"
-                << std::endl;
-}
-
-void OnEventB(float temp, float hum, float press)
-{
-    std::cout << "I am B - Display: Temperature = " << temp
-                << "°C, Humidity = " << hum
-                << "%, Pressure = " << press << " hPa"
-                << std::endl;
-}
 
 int main()
 {
@@ -45,6 +32,22 @@ int main()
     }
 
     return 0;
+}
+
+void OnEventA(float temp, float hum, float press)
+{
+    std::cout << "I am A - Display: Temperature = " << temp
+                << "°C, Humidity = " << hum
+                << "%, Pressure = " << press << " hPa"
+                << std::endl;
+}
+
+void OnEventB(float temp, float hum, float press)
+{
+    std::cout << "I am B - Display: Temperature = " << temp
+                << "°C, Humidity = " << hum
+                << "%, Pressure = " << press << " hPa"
+                << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, ApiResult result)
