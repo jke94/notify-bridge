@@ -12,8 +12,10 @@ mkdir -p $BUILD_DIR
 
 # Compilar la librería compartida
 echo "Compilando la librería compartida..."
-g++ -shared -fPIC                   \
-    $LIB_DIR/src/*.cpp   \
+
+g++ -shared                         \
+    -fPIC                           \
+    $LIB_DIR/src/*.cpp              \
     -I$LIB_DIR/include              \
     -I$LIB_DIR/api                  \
     -o $BUILD_DIR/$LIB_NAME

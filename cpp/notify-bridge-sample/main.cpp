@@ -1,39 +1,43 @@
 #include <iostream>
 
-#include "observer_api.h"
+#include "NotifyBridgeApi.h"
+
+std::ostream& operator<<(std::ostream& os, ApiResult result);
 
 int main()
 {
-    IObserver* observerA = createObserver();
-    std::cout << "Observer created: " << observerA << std::endl;
+    IObserver* display1 = createObserver();
+    IObserver* display2 = createObserver();
 
-    ApiResult createSubscribeResult = addObserver(observerA);
+    ApiResult display1Registration1 = registerObserver(display1);
+    ApiResult display1Registration2 = registerObserver(display2);
 
-    if (createSubscribeResult != ApiResult::SUCCESS)
-    {
-        std::cout << "Failed to add subscriber" << std::endl;
+    ApiResult setMeasurementResult1 = setMeasurements(25.5, 60, 1013.2);
+    ApiResult setMeasurementResult2 = setMeasurements(24.8, 58, 1014.5);
 
-        return -1;
-    }
+    ApiResult removeResult = removeObserver(display2);
 
-    std::cout << "Observer added successfully" << std::endl;
+    ApiResult setMeasurementResult3 = setMeasurements(35.8, 70, 1111.2);
 
-    ApiResult notifyResult;
-    notifyResult = notifySubscribers(EventType::EVENT_A, "Hello, world!");
-    notifyResult = notifySubscribers(EventType::EVENT_B, "Bye bye!");
-
-    ApiResult removeObserverResult = removeObserver(observerA);
-
-    if (removeObserverResult != ApiResult::SUCCESS)
-    {
-        std::cout << "Failed to remove observer" << std::endl;
-
-        return -1;
-    }
-
-    std::cout << "Observer removed successfully" << std::endl;
-
-
+    delete display1;
+    delete display2;
 
     return 0;
+}
+
+std::ostream& operator<<(std::ostream& os, ApiResult result)
+{
+    switch (result)
+    {
+        case ApiResult::SUCCESS:
+            os << "SUCCESS";
+            break;
+        case ApiResult::FAILURE:
+            os << "FAILURE";
+            break;
+        default:
+            os << "UNKNOWN";
+            break;
+    }
+    return os;
 }
