@@ -4,7 +4,7 @@
 #include "Display.h"
 #include "WeatherStation.h"
 
-std::shared_ptr<WeatherStation> wheatherStation_ = std::make_shared<WeatherStation>();
+std::shared_ptr<WeatherStation> wheatherStation_ = nullptr;
 
 extern "C" API_EXPORT IObserver* createObserver()
 {
@@ -30,7 +30,25 @@ extern "C" API_EXPORT ApiResult removeObserver(IObserver* observer)
     return ApiResult::SUCCESS; // TODO: Implement logic.
 }
 
+extern "C" API_EXPORT ApiResult deleteObserver(IObserver* observer)
+{
+    delete observer;
+
+    return ApiResult::SUCCESS;
+}
+
 // Operations to simulate that patterns works correctly.
+
+extern "C" API_EXPORT ApiResult initializeMeasurementTool()
+{
+    if(!wheatherStation_)
+    {
+        wheatherStation_ = std::make_shared<WeatherStation>();
+    }
+
+    return ApiResult::SUCCESS;
+}
+
 extern "C" API_EXPORT ApiResult setMeasurements(float temp, float hum, float press)
 {
     wheatherStation_->setMeasurements(temp, hum, press);

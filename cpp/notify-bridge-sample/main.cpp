@@ -16,6 +16,8 @@ int main()
         {createObserver(), OnEventB},
     };
 
+    ApiResult initializationResult = initializeMeasurementTool();
+
     ApiResult display1Registration1 = registerObserver(observers_[0].first, observers_[0].second);
     ApiResult display1Registration2 = registerObserver(observers_[1].first, observers_[1].second);
 
@@ -26,9 +28,17 @@ int main()
 
     ApiResult setMeasurementResult3 = setMeasurements(35.8, 70, 1111.2);
 
+    ApiResult display1Registration3 = registerObserver(observers_[0].first, observers_[0].second);
+
+    ApiResult setMeasurementResult4 = setMeasurements(-1.8, 10, 900.2);
+
     for(std::pair<IObserver*, void(*)(float, float, float)> observer : observers_)
     {
-        removeObserver(observer.first);
+        if(observer.first)
+        {
+            removeObserver(observer.first);
+            deleteObserver(observer.first);
+        }
     }
 
     return 0;
@@ -36,7 +46,7 @@ int main()
 
 void OnEventA(float temp, float hum, float press)
 {
-    std::cout << "I am A - Display: Temperature = " << temp
+    std::cout << "Hi! I am A - Display: Temperature = " << temp
                 << "°C, Humidity = " << hum
                 << "%, Pressure = " << press << " hPa"
                 << std::endl;
@@ -44,7 +54,7 @@ void OnEventA(float temp, float hum, float press)
 
 void OnEventB(float temp, float hum, float press)
 {
-    std::cout << "I am B - Display: Temperature = " << temp
+    std::cout << "Hi! I am B - Display: Temperature = " << temp
                 << "°C, Humidity = " << hum
                 << "%, Pressure = " << press << " hPa"
                 << std::endl;
