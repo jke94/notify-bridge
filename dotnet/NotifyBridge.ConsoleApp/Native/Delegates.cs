@@ -1,0 +1,4 @@
+namespace NotifyBridge.ConsoleApp.Native
+{
+    
+}
