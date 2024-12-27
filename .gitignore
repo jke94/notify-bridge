@@ -371,3 +371,12 @@ lib/dotnet-with-cpp.so
 
 # ChatGPT files
 chatgpt-*.txt
+
+# Native build
+build/
+
+# Visual Studio Code
+.vscode/
+
+# Valgrind outputs
+valgrind-*.txt
