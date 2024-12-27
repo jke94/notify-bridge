@@ -19,7 +19,7 @@
             Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>
             {
-                // services.AddInteropServices();
+                services.AddInteropServices();
                 services.AddTransient<IMainRunnerService, MainRunnerService>();
             })
             .ConfigureLogging((hostContext, logging) =>
