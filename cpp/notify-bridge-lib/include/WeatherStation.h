@@ -2,16 +2,17 @@
 #define WHEATHER_STATION_H
 
 #include <vector>
-#include<map>
+#include <map>
 
 #include "NotifyBridgeApi.h"
+#include "IWeatherStation.h"
 
-class WeatherStation 
+class WeatherStation : public IWeatherStation
 {
 private:
-    float temperature;
-    float humidity;
-    float pressure;
+    float temperature_;
+    float humidity_;
+    float pressure_;
     std::vector<std::pair<IObserver*, void(*)(float temp, float hum, float press)>> observers_;
 
 public:
@@ -19,10 +20,10 @@ public:
     void registerObserver(
         IObserver* observer,
         void(*notification)(float temp, float hum, float press)
-    );
-    void removeObserver(IObserver* observer);
-    void notifyObservers();
-    void setMeasurements(float temp, float hum, float press);
+    ) override;
+    void removeObserver(IObserver* observer) override;
+    void notifyObservers() override;
+    void setMeasurements(float temp, float hum, float press) override;
 };
 
 #endif // WHEATHER_STATION_H
