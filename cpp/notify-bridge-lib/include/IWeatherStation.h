@@ -1,6 +1,8 @@
 #ifndef I_WHEATHER_STATION_H
 #define I_WHEATHER_STATION_H
 
+#include "NotifyBridgeApi.h"
+
 class IWeatherStation
 {
 public:

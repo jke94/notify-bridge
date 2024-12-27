@@ -2,31 +2,16 @@
 #define WEATHER_STATION_FACTORY_H
 
 #include <memory>
+#include "IWeatherStationFactory.h"
 #include "IWeatherStation.h"
 #include "WeatherStation.h"
 
-std::shared_ptr<IWeatherStation> weatherStation_;
-
-class WeatherStationFactory
+class WeatherStationFactory : public IWeatherStationFactory
 {
-private:
-    
 public:
     WeatherStationFactory() = default;
-    std::shared_ptr<IWeatherStation> getWeatherStation()
-    {
-        if(!weatherStation_)
-        {
-            weatherStation_ = std::make_shared<WeatherStation>();
-        }
-
-        return weatherStation_;
-    }
-
-    void setMeasurements(float temp, float hum, float press)
-    {
-        weatherStation_->setMeasurements(temp, hum, press);
-    }
+    std::shared_ptr<IWeatherStation> getWeatherStation() override;
+    void setMeasurements(float temp, float hum, float press) override;
 };
 
 #endif // WEATHER_STATION_CONTAINER_H
