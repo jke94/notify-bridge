@@ -17,11 +17,11 @@ private:
 
 public:
 
-    void registerObserver(
+    ApiResult registerObserver(
         IObserver* observer,
         void(*notification)(float temp, float hum, float press)
     ) override;
-    void removeObserver(IObserver* observer) override;
+    ApiResult removeObserver(IObserver* observer) override;
     void notifyObservers() override;
     void setMeasurements(float temp, float hum, float press) override;
 };

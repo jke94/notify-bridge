@@ -16,8 +16,10 @@ echo "Compilando la librería compartida..."
 g++ -shared                         \
     -fPIC                           \
     $LIB_DIR/src/*.cpp              \
-    -I$LIB_DIR/include              \
+    $LIB_DIR/src/logger/*.cpp       \
     -I$LIB_DIR/api                  \
+    -I$LIB_DIR/include              \
+    -I$LIB_DIR/include/logger       \
     -o $BUILD_DIR/$LIB_NAME
 
 if [ $? -ne 0 ]; then

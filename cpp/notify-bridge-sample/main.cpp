@@ -3,13 +3,18 @@
 
 #include "NotifyBridgeApi.h"
 
+void logCallbackMessage(LOG_LEVEL logLevel, const char* logMessage);
+
 void OnEventA(float temp, float hum, float press);
 void OnEventB(float temp, float hum, float press);
 
 std::ostream& operator<<(std::ostream& os, ApiResult result);
+std::ostream& operator<<(std::ostream& os, LOG_LEVEL logLevel);
 
 int main()
 {
+    LOGGER_INFRASTRUCTURE_RESULT initializeCallbackResult = initializeLogger(logCallbackMessage);
+
     std::vector<std::pair<IObserver*, void(*)(float, float, float)>> observers_ = 
     {
         {createObserver(), OnEventA},
@@ -75,4 +80,35 @@ std::ostream& operator<<(std::ostream& os, ApiResult result)
             break;
     }
     return os;
+}
+
+std::ostream& operator<<(std::ostream& os, LOG_LEVEL logLevel)
+{
+    switch (logLevel)
+    {
+        case LOG_LEVEL::VERBOSE:
+            os << "VERBOSE";
+            break;
+        case LOG_LEVEL::INFO:
+            os << "INFO";
+            break;
+        case LOG_LEVEL::WARNING:
+            os << "WARNING";
+            break;
+        case LOG_LEVEL::ERROR:
+            os << "ERROR";
+            break;
+        case LOG_LEVEL::CRITICAL:
+            os << "CRITICAL";
+            break;
+        default:
+            os << "NO_LOG_LEVEL";
+            break;
+    }
+    return os;    
+}
+
+void logCallbackMessage(LOG_LEVEL logLevel, const char* logMessage)
+{
+    std::cout << "[" << logLevel << "]" << logMessage << std::endl;
 }

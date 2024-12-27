@@ -1,6 +1,34 @@
 #include "NotifyBridgeApi.h"
 #include "NotifyBridgeApiFactory.h"
 #include "WeatherStationFactory.h"
+#include "LoggerContainer.h"
+#include "LoggerWrapper.h"
+#include "LoggerApi.h"
+
+using namespace notifyBridgeLogger;
+
+extern "C" API_EXPORT LOGGER_INFRASTRUCTURE_RESULT initializeLogger(
+    void(*logCallback)(LOG_LEVEL logLevel, const char* logMessage)
+)
+{
+    LOGGER_INFRASTRUCTURE_RESULT result = LOGGER_INFRASTRUCTURE_RESULT::WTF;
+    
+    if(LoggerContainer::logger_)
+    {
+        result = LOGGER_INFRASTRUCTURE_RESULT::FAILURE_HEY_YOU_HAVE_ALREADY_INITIALIZE_THE_LOGGER;
+    
+        return result;
+    }
+
+    LoggerContainer::logger_ = std::make_shared<LoggerWrapper>();
+    LoggerContainer::logger_->setLoggerCallback(logCallback);
+
+    LOG_VERBOSE("Logger has been initialized: ", &logCallback);
+
+    result = LOGGER_INFRASTRUCTURE_RESULT::OK;
+
+    return result;
+}
 
 extern "C" API_EXPORT IObserver* createObserver()
 {
