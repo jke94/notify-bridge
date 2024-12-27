@@ -2,6 +2,8 @@ namespace NotifyBridge.ConsoleApp.Interop
 {
     #region using
 
+    using NotifyBridge.ConsoleApp.Native;
+
     #endregion
 
     public interface IEngineInterop
@@ -11,6 +13,8 @@ namespace NotifyBridge.ConsoleApp.Interop
         public bool IsLoadadSharedLibrary();
 
         public IntPtr GetMememoyAddress();
+
+        public void InitializeLogger(Action<NativeLogLevel, IntPtr> logCallback);
 
         #endregion        
     }

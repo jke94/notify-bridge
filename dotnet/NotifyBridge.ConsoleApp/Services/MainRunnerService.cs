@@ -1,9 +1,12 @@
 namespace NotifyBridge.ConsoleApp.Services
 {
+
     #region using
 
+    using System.Runtime.InteropServices;
     using Microsoft.Extensions.Logging;
     using NotifyBridge.ConsoleApp.Interop;
+    using NotifyBridge.ConsoleApp.Native;
 
     #endregion
 
@@ -42,6 +45,8 @@ namespace NotifyBridge.ConsoleApp.Services
             var memoryAddress = _engineInterop.GetMememoyAddress();
             _logger.LogInformation("Memory address {0} (0x{1})", memoryAddress, memoryAddress.ToString("x2"));
             
+            _engineInterop.InitializeLogger(LogNativeLoggerCallback);
+
             await Task.CompletedTask;
         }
 
@@ -49,22 +54,22 @@ namespace NotifyBridge.ConsoleApp.Services
 
         #region Private Methods
 
-        // private void logNativeLoggerCallback(NativeLogLevel nativeLogLevel, IntPtr logMessagePtr)
-        // {
-        //     string logMessage = Marshal.PtrToStringAuto(logMessagePtr);
+        private void LogNativeLoggerCallback(NativeLogLevel nativeLogLevel, IntPtr logMessagePtr)
+        {
+            string? logMessage = Marshal.PtrToStringAuto(logMessagePtr);
 
-        //     string logLevel = nativeLogLevel switch
-        //     {
-        //         NativeLogLevel.VERBOSE => "VERBOSE",
-        //         NativeLogLevel.INFO => "INFO",
-        //         NativeLogLevel.WARNING => "WARNING",
-        //         NativeLogLevel.ERROR => "ERROR",
-        //         NativeLogLevel.CRITICAL => "CRITICAL",
-        //         _ => "UNKNOWN_LOG_LEVEL",
-        //     };
+            string logLevel = nativeLogLevel switch
+            {
+                NativeLogLevel.VERBOSE => "VERBOSE",
+                NativeLogLevel.INFO => "INFO",
+                NativeLogLevel.WARNING => "WARNING",
+                NativeLogLevel.ERROR => "ERROR",
+                NativeLogLevel.CRITICAL => "CRITICAL",
+                _ => "UNKNOWN_LOG_LEVEL",
+            };
 
-        //     _logger.LogNativeCode($"[NATIVE_CODE][{logLevel}] {logMessage}");
-        // }
+            _logger.LogInformation($"[NATIVE_CODE][{logLevel}]{logMessage}");
+        }
 
         #endregion
     }

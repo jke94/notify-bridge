@@ -5,6 +5,7 @@ namespace NotifyBridge.ConsoleApp.Interop
     using System;
     using System.Runtime.InteropServices;
     using Microsoft.Extensions.Logging;
+    using NotifyBridge.ConsoleApp.Native;
 
     #endregion
 
@@ -46,6 +47,36 @@ namespace NotifyBridge.ConsoleApp.Interop
         public IntPtr GetMememoyAddress()
         {
             return _handler;
+        }
+
+        public void InitializeLogger(Action<NativeLogLevel, IntPtr> logCallback)
+        {
+            var nativeDelegate = GetDelegateFromNativeFunction<InitLoggerDelegate>("initializeLogger");
+
+            void logCallback_(NativeLogLevel nativeLogLevel, IntPtr logMessage)
+            {
+                logCallback(nativeLogLevel, logMessage);
+            }
+
+            LoggerInfrastructureResult result = nativeDelegate(logCallback_);
+
+            _logger.LogInformation("Native logger initialization result {0}", result);
+        }
+
+        #endregion
+
+
+        #region Private Methods
+
+        private TDelegate GetDelegateFromNativeFunction<TDelegate>(string functionNativeName) 
+            where TDelegate : Delegate
+        {
+            if (NativeLibrary.TryGetExport(_handler, functionNativeName, out IntPtr handle))
+            {
+                return Marshal.GetDelegateForFunctionPointer<TDelegate>(handle);
+            }
+
+            throw new EntryPointNotFoundException(functionNativeName);
         }
 
         #endregion
