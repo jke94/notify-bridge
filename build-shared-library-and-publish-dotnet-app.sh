@@ -7,11 +7,11 @@ BUILD_DIR="build"
 LIB_NAME="libnotify_bridge.so"
 EXECUTABLE_NAME="notify_bridge_sample"
 
-# Crear directorio de compilación
+# A. Create compilation output directory.
 mkdir -p $BUILD_DIR
 
-# Compilar la librería compartida
-echo "Compilando la librería compartida..."
+# B. Building shared library.
+echo "Building shared library..."
 
 g++ -shared                         \
     -fPIC                           \
@@ -23,12 +23,13 @@ g++ -shared                         \
     -o $BUILD_DIR/$LIB_NAME
 
 if [ $? -ne 0 ]; then
-    echo "Error al compilar la librería compartida."
+    echo "Error compiling shared library!"
     exit 1
 fi
 
-# Compilar el ejecutable
-echo "Compilando el ejecutable..."
+# C. Building executable as client and linking library.
+echo "Building executable client and linking library..."
+
 g++ $SAMPLE_DIR/main.cpp            \
     -I$LIB_DIR/include              \
     -I$LIB_DIR/api                  \
@@ -38,9 +39,21 @@ g++ $SAMPLE_DIR/main.cpp            \
     -o $BUILD_DIR/$EXECUTABLE_NAME
 
 if [ $? -ne 0 ]; then
-    echo "Error al compilar el ejecutable."
+    echo "Error compiling executable!"
     exit 1
 fi
 
-# Mensaje de éxito
-echo "Compilación exitosa. Ejecutable generado en $BUILD_DIR/$EXECUTABLE_NAME."
+echo "Compilation successful. Executable generated in $BUILD_DIR/$EXECUTABLE_NAME"
+
+
+# D. Build and publish dotnet console app.
+dotnet publish \
+    ./dotnet/NotifyBridge.ConsoleApp/NotifyBridge.ConsoleApp.csproj \
+    -c Release \
+    -r linux-x64 \
+    -p:PublishSingleFile=true \
+    --self-contained true \
+    --output ./publish/NotifyBridge.ConsoleApp
+
+# D. Copy native shared library to dotnet publish folder.
+cp $BUILD_DIR/$LIB_NAME ./publish/NotifyBridge.ConsoleApp

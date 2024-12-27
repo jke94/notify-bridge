@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotnet", "dotnet", "{84654AF6-9B6A-4CA4-8201-764BD39688F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotifyBridge.ConsoleApp", "dotnet\NotifyBridge.ConsoleApp\NotifyBridge.ConsoleApp.csproj", "{E9A32008-B728-4F44-BA69-AEC6E95081E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9A32008-B728-4F44-BA69-AEC6E95081E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A32008-B728-4F44-BA69-AEC6E95081E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A32008-B728-4F44-BA69-AEC6E95081E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A32008-B728-4F44-BA69-AEC6E95081E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E9A32008-B728-4F44-BA69-AEC6E95081E3} = {84654AF6-9B6A-4CA4-8201-764BD39688F7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D32D0C92-4AB0-408D-8C93-DF59080A76A4}
+	EndGlobalSection
+EndGlobal
