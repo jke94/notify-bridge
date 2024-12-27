@@ -39,4 +39,16 @@ namespace NotifyBridge.ConsoleApp.Native
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate LoggerInfrastructureResult InitLoggerDelegate(LogCallback logCallback);
+
+    public enum ApiResult
+    {
+        WTF = -1,
+        SUCCESS = 0,
+        FAILURE = 1,
+        FAILURE_ELEMENT_NOT_FOUND = 2,
+        FAILURE_ELEMENT_IS_NULL = 3
+    };
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate ApiResult InitializeMeasurementTool();        
 }

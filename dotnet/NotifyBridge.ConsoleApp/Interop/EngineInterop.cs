@@ -51,16 +51,27 @@ namespace NotifyBridge.ConsoleApp.Interop
 
         public void InitializeLogger(Action<NativeLogLevel, IntPtr> logCallback)
         {
-            var nativeDelegate = GetDelegateFromNativeFunction<InitLoggerDelegate>("initializeLogger");
+            var initializeLogger = GetDelegateFromNativeFunction<InitLoggerDelegate>("initializeLogger");
 
             void logCallback_(NativeLogLevel nativeLogLevel, IntPtr logMessage)
             {
                 logCallback(nativeLogLevel, logMessage);
             }
 
-            LoggerInfrastructureResult result = nativeDelegate(logCallback_);
+            LoggerInfrastructureResult result = initializeLogger(logCallback_);
 
             _logger.LogInformation("Native logger initialization result {0}", result);
+        }
+
+        public ApiResult InitializeMeasurementTool()
+        {
+            var initializeMeasurementTool = GetDelegateFromNativeFunction<InitializeMeasurementTool>("initializeMeasurementTool");
+
+            ApiResult apiResult = initializeMeasurementTool();
+
+            _logger.LogInformation("Initialization measurement tool result {0}", apiResult);
+
+            return apiResult;
         }
 
         #endregion

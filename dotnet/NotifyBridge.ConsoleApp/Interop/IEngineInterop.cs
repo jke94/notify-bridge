@@ -16,6 +16,8 @@ namespace NotifyBridge.ConsoleApp.Interop
 
         public void InitializeLogger(Action<NativeLogLevel, IntPtr> logCallback);
 
+        public ApiResult InitializeMeasurementTool();
+
         #endregion        
     }
 }

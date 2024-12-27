@@ -72,11 +72,15 @@ extern "C" API_EXPORT ApiResult initializeMeasurementTool()
     ApiResult apiResult = ApiResult::FAILURE;
 
     WeatherStationFactory weatherStationFactory;
+    
+    auto weatherStation = weatherStationFactory.getWeatherStation();
 
-    if(weatherStationFactory.getWeatherStation())
+    if(weatherStation)
     {
         apiResult = ApiResult::SUCCESS;
     }
+
+    LOG_VERBOSE("Initialiced measurement tool: ", weatherStation);
 
     return apiResult;
 }
