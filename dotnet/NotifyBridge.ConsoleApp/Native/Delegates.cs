@@ -50,5 +50,8 @@ namespace NotifyBridge.ConsoleApp.Native
     };
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate ApiResult InitializeMeasurementTool();        
+    public delegate ApiResult InitializeMeasurementTool();
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void SetMeasurements(Single temp, Single hum, Single press);           
 }

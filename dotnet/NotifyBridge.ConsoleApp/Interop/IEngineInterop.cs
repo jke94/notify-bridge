@@ -18,6 +18,8 @@ namespace NotifyBridge.ConsoleApp.Interop
 
         public ApiResult InitializeMeasurementTool();
 
+        public void SetMeasurements(double temp, double hum, double press);
+
         #endregion        
     }
 }

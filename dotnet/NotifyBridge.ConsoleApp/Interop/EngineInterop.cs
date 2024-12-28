@@ -74,6 +74,15 @@ namespace NotifyBridge.ConsoleApp.Interop
             return apiResult;
         }
 
+        public void SetMeasurements(double temp, double hum, double press)
+        {
+            _logger.LogInformation("Set measurements. Temperature: {0}, Humidity: {1}, Pressure: {2}", temp, hum, press);
+
+            var setMeasurements = GetDelegateFromNativeFunction<SetMeasurements>("setMeasurements");
+
+            setMeasurements((float)temp, (float)hum, (float)press);
+        }
+
         #endregion
 
 

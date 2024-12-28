@@ -48,6 +48,8 @@ namespace NotifyBridge.ConsoleApp.Services
             _engineInterop.InitializeLogger(LogNativeLoggerCallback);
 
             _engineInterop.InitializeMeasurementTool();
+            
+            _engineInterop.SetMeasurements(29.7, 56, 1010.34);
 
             await Task.CompletedTask;
         }
