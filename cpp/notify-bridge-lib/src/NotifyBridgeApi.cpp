@@ -4,6 +4,7 @@
 #include "LoggerContainer.h"
 #include "LoggerWrapper.h"
 #include "LoggerApi.h"
+#include "NotifyBridgeApiResultTypes.h"
 
 using namespace notifyBridgeLogger;
 

@@ -2,6 +2,7 @@
 #include "NotifyBridgeApiFactory.h"
 #include "Display.h"
 #include "LoggerApi.h"
+#include "NotifyBridgeApiResultTypes.h"
 
 IObserver* NotifyBridgeApiFactory::createDisplay()
 {
