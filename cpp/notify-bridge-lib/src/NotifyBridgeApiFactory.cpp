@@ -1,6 +1,7 @@
 #include "NotifyBridgeApi.h"
 #include "NotifyBridgeApiFactory.h"
 #include "Display.h"
+#include "LoggerApi.h"
 
 IObserver* NotifyBridgeApiFactory::createDisplay()
 {
@@ -9,6 +10,8 @@ IObserver* NotifyBridgeApiFactory::createDisplay()
 
 ApiResult NotifyBridgeApiFactory::deleteObserver(IObserver* observer)
 {
+    LOG_VERBOSE("Trying to remove observer ", observer);
+    
     delete observer;
 
     return ApiResult::SUCCESS;

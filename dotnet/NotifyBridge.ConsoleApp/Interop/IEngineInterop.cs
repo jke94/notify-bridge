@@ -20,6 +20,12 @@ namespace NotifyBridge.ConsoleApp.Interop
 
         public void SetMeasurements(double temp, double hum, double press);
 
+        public IntPtr CreateObserver();
+
+        public ApiResult DeleteObserver(IntPtr observer);
+
+        public ApiResult RegisterObserver(IntPtr observer, Action<float, float, float> notificationCallback);
+
         #endregion        
     }
 }

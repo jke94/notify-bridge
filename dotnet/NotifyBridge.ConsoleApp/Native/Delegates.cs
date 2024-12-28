@@ -53,5 +53,17 @@ namespace NotifyBridge.ConsoleApp.Native
     public delegate ApiResult InitializeMeasurementTool();
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void SetMeasurements(Single temp, Single hum, Single press);           
+    public delegate void SetMeasurements(Single temp, Single hum, Single press);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr CreateObserverDelegate();
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate ApiResult DeleteObserverDelegate(IntPtr observer);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NotificationDelegate(Single temp, Single hum, Single press);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate ApiResult RegisterObserverDelegate(IntPtr observer, NotificationDelegate notification);
 }

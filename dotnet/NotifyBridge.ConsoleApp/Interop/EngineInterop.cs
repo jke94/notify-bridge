@@ -8,7 +8,7 @@ namespace NotifyBridge.ConsoleApp.Interop
     using NotifyBridge.ConsoleApp.Native;
 
     #endregion
-
+    
     public class EngineInterop : IEngineInterop, IDisposable
     {
 
@@ -53,12 +53,12 @@ namespace NotifyBridge.ConsoleApp.Interop
         {
             var initializeLogger = GetDelegateFromNativeFunction<InitLoggerDelegate>("initializeLogger");
 
-            void logCallback_(NativeLogLevel nativeLogLevel, IntPtr logMessage)
+            void OnLogCallback(NativeLogLevel nativeLogLevel, IntPtr logMessage)
             {
                 logCallback(nativeLogLevel, logMessage);
             }
 
-            LoggerInfrastructureResult result = initializeLogger(logCallback_);
+            LoggerInfrastructureResult result = initializeLogger(OnLogCallback);
 
             _logger.LogInformation("Native logger initialization result {0}", result);
         }
@@ -83,8 +83,46 @@ namespace NotifyBridge.ConsoleApp.Interop
             setMeasurements((float)temp, (float)hum, (float)press);
         }
 
-        #endregion
+        public IntPtr CreateObserver()
+        {
+            var createObserver = GetDelegateFromNativeFunction<CreateObserverDelegate>("createObserver");
 
+            IntPtr observerPtr = createObserver();
+
+            _logger.LogInformation("Create observer: {0} (0x{1})", observerPtr, observerPtr.ToString("x2"));
+
+            return observerPtr;
+        }
+
+        public ApiResult DeleteObserver(IntPtr observer)
+        {
+            _logger.LogInformation("Trying to delete observer: {0} (0x{1})", observer, observer.ToString("x2"));
+
+            var deleteObserver = GetDelegateFromNativeFunction<DeleteObserverDelegate>("deleteObserver");
+
+            ApiResult apiResult = deleteObserver(observer);
+
+            _logger.LogInformation("Delete observer result: {0}", apiResult);
+
+            return apiResult;
+        }
+        public ApiResult RegisterObserver(IntPtr observer, Action<float, float, float> notificationCallback)
+        {
+            var registerObserver = GetDelegateFromNativeFunction<RegisterObserverDelegate>("registerObserver");
+
+            void OnNotificationCallback(float temp, float hum, float press)
+            {
+                notificationCallback(temp, hum, press);
+            }
+
+            ApiResult apiResult = registerObserver(observer, OnNotificationCallback);
+
+            _logger.LogInformation("Registred observer: {0} (0x{1}) with result: {3}", observer, observer.ToString("x2"), apiResult);
+
+            return apiResult;
+        }        
+
+        #endregion
 
         #region Private Methods
 
