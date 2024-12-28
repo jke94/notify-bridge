@@ -16,9 +16,24 @@ IObserver* NotifyBridgeApiFactory::createDisplay()
 
 ApiResult NotifyBridgeApiFactory::deleteObserver(IObserver* observer)
 {
+    ApiResult apiResult = ApiResult::WTF;
+
+    if(!observer)
+    {
+        apiResult = ApiResult::FAILURE_ELEMENT_IS_NULL;
+
+        LOG_VERBOSE("Observer is null. Function result: ", apiResult);
+
+        return apiResult;
+    }
+
     LOG_VERBOSE("Trying to remove observer ", observer);
     
     delete observer;
 
-    return ApiResult::SUCCESS;
+    apiResult = ApiResult::SUCCESS;
+
+    LOG_VERBOSE("Observer removed. Function result: ", apiResult);
+
+    return apiResult;
 }

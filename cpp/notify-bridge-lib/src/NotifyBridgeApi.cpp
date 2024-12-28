@@ -16,6 +16,8 @@ extern "C" API_EXPORT LOGGER_INFRASTRUCTURE_RESULT initializeLogger(
     if(LoggerContainer::logger_)
     {
         result = LOGGER_INFRASTRUCTURE_RESULT::FAILURE_HEY_YOU_HAVE_ALREADY_INITIALIZE_THE_LOGGER;
+
+        LOG_VERBOSE("Fail! Logger have been already initialized. Function result: ", result);
     
         return result;
     }
@@ -23,9 +25,9 @@ extern "C" API_EXPORT LOGGER_INFRASTRUCTURE_RESULT initializeLogger(
     LoggerContainer::logger_ = std::make_shared<LoggerWrapper>();
     LoggerContainer::logger_->setLoggerCallback(logCallback);
 
-    LOG_VERBOSE("Logger has been initialized: ", &logCallback);
-
     result = LOGGER_INFRASTRUCTURE_RESULT::OK;
+
+    LOG_VERBOSE("Logger has been initialized: ", &logCallback, "Function result: ", result);
 
     return result;
 }
@@ -65,7 +67,7 @@ extern "C" API_EXPORT ApiResult deleteObserver(IObserver* observer)
     return apiResult;
 }
 
-// Operations to simulate that patterns works correctly.
+// Operations to simulate that abserver pattern works correctly.
 
 extern "C" API_EXPORT ApiResult initializeMeasurementTool()
 {
