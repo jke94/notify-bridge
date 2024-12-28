@@ -7,7 +7,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Configuration;
     using NotifyBridge.ConsoleApp.Services;
-    using NotifyBridge.ConsoleApp.Extensions;
+    using NotifyBridge.ConsoleApp.Logger;
 
     #endregion
 
@@ -22,17 +22,16 @@
                 services.AddInteropServices();
                 services.AddTransient<IMainRunnerService, MainRunnerService>();
             })
-            .ConfigureLogging((hostContext, logging) =>
+            .ConfigureLogging((hostBuilderContext, loggingBuilder) =>
             {
-                logging.ClearProviders();
-
-                var configuration = hostContext.Configuration;
-                logging.AddFileLogger(configuration);
+                loggingBuilder.ClearProviders();
+                loggingBuilder.AddCustomLogger(hostBuilderContext);
             })
             .ConfigureAppConfiguration((hostContext, config) =>
             {
                 config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
-                config.AddJsonFile("appsettings.json", 
+                config.AddJsonFile(
+                    "appsettings.json", 
                     optional: false, 
                     reloadOnChange: true);
             });        

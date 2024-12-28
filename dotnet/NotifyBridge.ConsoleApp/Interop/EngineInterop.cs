@@ -41,6 +41,8 @@ namespace NotifyBridge.ConsoleApp.Interop
 
         public void Dispose()
         {
+            _logger.LogInformation("Dispose handler: {0} (0x{1})", _handler, _handler.ToString("x2"));
+
             NativeLibrary.Free(_handler);
         }
 
