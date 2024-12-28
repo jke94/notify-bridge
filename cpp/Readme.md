@@ -41,5 +41,5 @@ graph TD
     D[src]:::folder
     D1[src/logger]:::folder
 
-    classDef folder fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef folder fill:#a24,stroke:#333,stroke-width:2px;
 ```
