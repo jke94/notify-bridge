@@ -55,5 +55,5 @@ dotnet publish \
     --self-contained true \
     --output ./publish/NotifyBridge.ConsoleApp
 
-# D. Copy native shared library to dotnet publish folder.
+# E. Copy native shared library to dotnet publish folder.
 cp $BUILD_DIR/$LIB_NAME ./publish/NotifyBridge.ConsoleApp

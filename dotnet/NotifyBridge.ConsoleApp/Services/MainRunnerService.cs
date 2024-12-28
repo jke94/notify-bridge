@@ -90,12 +90,15 @@ namespace NotifyBridge.ConsoleApp.Services
 
         public void ObserverA_OnNotification(float temp, float hum, float press)
         {
-            _logger.LogInformation("I am observer A! Notification received: Temperature={0}, Humidity={1}, Pressure={2}", temp, hum, press);
+            _logger.LogInformation("I am observer A! Notification received: Temperature={0} ºC, Humidity={1} %, Pressure={2} hPa", temp, hum, press);
         }
 
         public void ObserverB_OnNotification(float temp, float hum, float press)
         {
-            _logger.LogInformation("I am observer B! Notification received: Temperature={0}, Humidity={1}, Pressure={2}", temp, hum, press);
+            var fahrenheitTemp = temp * (9/5) + 32;
+            _logger.LogInformation(
+                "I am observer B! Notification received: Temperature={0} ºC ({1} ºF), Humidity={2} %, Pressure={3} hPa", 
+                temp, fahrenheitTemp, hum, press);
         }        
 
         private void LogNativeLoggerCallback(NativeLogLevel nativeLogLevel, IntPtr logMessagePtr)
