@@ -94,6 +94,17 @@ namespace NotifyBridge.ConsoleApp.Interop
             return observerPtr;
         }
 
+        public ApiResult RemoveObserver(IntPtr observer)
+        {
+            var removeObserver = GetDelegateFromNativeFunction<RemoveObserverDelegate>("removeObserver");
+
+            ApiResult apiResult = removeObserver(observer);
+
+            _logger.LogInformation("Remove observer: {0} (0x{1}) with result: {3}", observer, observer.ToString("x2"), apiResult);
+
+            return apiResult;
+        }
+
         public ApiResult DeleteObserver(IntPtr observer)
         {
             _logger.LogInformation("Trying to delete observer: {0} (0x{1})", observer, observer.ToString("x2"));

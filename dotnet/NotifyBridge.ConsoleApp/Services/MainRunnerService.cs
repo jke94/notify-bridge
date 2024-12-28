@@ -50,26 +50,36 @@ namespace NotifyBridge.ConsoleApp.Services
             
             _logger.LogInformation("Memory address {0} (0x{1})", memoryAddress, memoryAddress.ToString("x2"));
             
-            // D, Initialize logger of shared library to library's traces.
+            // D. Initialize logger of shared library to library's traces.
             _engineInterop.InitializeLogger(LogNativeLoggerCallback);
 
-            // E. Playing with busssiness logic of the library. Initialize measurement tool to generate events.
+            //----------------------------------------
+            // Playing with bussiness library logic.
+            //----------------------------------------
+            
+            // E. Initialize measurement tool to generate events.
             _engineInterop.InitializeMeasurementTool();
             
-            // F. Playing with busssiness logic of the library. Initialize measurement tool to generate events.
+            // F. nitialize measurement tool to generate events.
             _engineInterop.SetMeasurements(29.7, 56, 1010.34);
 
-            // G. Playing with busssiness logic of the library. Create observer to receive events.
+            // G. Create observers to receive events.
             IntPtr observerA = _engineInterop.CreateObserver();
+            IntPtr observerB = _engineInterop.CreateObserver();
 
-            // H. Playing with busssiness logic of the library. Add subcriber (observer) to be notify.
-
+            // H. Add subcriber (observer) to be notify.
             _engineInterop.RegisterObserver(observerA, ObserverA_OnNotification);
+            _engineInterop.RegisterObserver(observerB, ObserverB_OnNotification);
 
-            // I. Playing with busssiness logic of the library. Create event to notify to the subscribers (observers).
+            // I. Create event to notify to the subscribers (observers).
             _engineInterop.SetMeasurements(11.1, 35.2, 1001.10);
 
+            // J. Remove observer of the measurement tool to avoid receive events.
+            _engineInterop.RemoveObserver(observerA);
+
+            // K. Delete observers. Free memory.
             _engineInterop.DeleteObserver(observerA);
+            _engineInterop.DeleteObserver(observerB);
 
             await Task.CompletedTask;
         }
@@ -82,6 +92,11 @@ namespace NotifyBridge.ConsoleApp.Services
         {
             _logger.LogInformation("I am observer A! Notification received: Temperature={0}, Humidity={1}, Pressure={2}", temp, hum, press);
         }
+
+        public void ObserverB_OnNotification(float temp, float hum, float press)
+        {
+            _logger.LogInformation("I am observer B! Notification received: Temperature={0}, Humidity={1}, Pressure={2}", temp, hum, press);
+        }        
 
         private void LogNativeLoggerCallback(NativeLogLevel nativeLogLevel, IntPtr logMessagePtr)
         {

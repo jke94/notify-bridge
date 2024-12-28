@@ -22,6 +22,8 @@ namespace NotifyBridge.ConsoleApp.Interop
 
         public IntPtr CreateObserver();
 
+        public ApiResult RemoveObserver(IntPtr observer);
+
         public ApiResult DeleteObserver(IntPtr observer);
 
         public ApiResult RegisterObserver(IntPtr observer, Action<float, float, float> notificationCallback);

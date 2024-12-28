@@ -5,7 +5,13 @@
 
 IObserver* NotifyBridgeApiFactory::createDisplay()
 {
-    return new Display();
+    LOG_VERBOSE("Trying to create observer.");
+
+    IObserver* observer = new Display();
+
+    LOG_VERBOSE("Created observer: ", observer);
+
+    return observer;
 }
 
 ApiResult NotifyBridgeApiFactory::deleteObserver(IObserver* observer)

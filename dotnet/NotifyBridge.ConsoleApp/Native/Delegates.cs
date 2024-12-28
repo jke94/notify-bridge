@@ -59,6 +59,9 @@ namespace NotifyBridge.ConsoleApp.Native
     public delegate IntPtr CreateObserverDelegate();
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate ApiResult RemoveObserverDelegate(IntPtr observer);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate ApiResult DeleteObserverDelegate(IntPtr observer);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
