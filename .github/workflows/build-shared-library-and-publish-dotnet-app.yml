@@ -43,4 +43,5 @@ jobs:
     - name: Upload publish folder as artifact
       uses: actions/download-artifact@v4
       with:
-        name: publish
+        name: publish-folder
+        path: publish/
