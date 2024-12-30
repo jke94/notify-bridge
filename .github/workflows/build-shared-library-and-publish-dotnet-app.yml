@@ -25,7 +25,7 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '8.0.x' # Replace with your required version
 
     # Step 4: Verify versions
     - name: Verify installed versions
@@ -38,3 +38,10 @@ jobs:
       run: |
         chmod +x ./build-shared-library-and-publish-dotnet-app.sh
         ./build-shared-library-and-publish-dotnet-app.sh
+
+    # Step 6: Download the publish folder
+    - name: Upload publish folder as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: publish-folder
+        path: ./publish
