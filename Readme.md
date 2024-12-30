@@ -1,3 +1,5 @@
+[![Build and Publish](https://github.com/jke94/notify-bridge/actions/workflows/build-shared-library-and-publish-dotnet-app.yml/badge.svg)](https://github.com/jke94/notify-bridge/actions/workflows/build-shared-library-and-publish-dotnet-app.yml)
+
 # notify-bridge
 
 Proof of concept about how works C# (.NET) with C++ under an observer pattern implementation in the native code. Consuming native bussiness logic through native shared library that is consumed from C# using P/Invoke.
