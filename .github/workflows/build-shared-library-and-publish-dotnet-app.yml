@@ -38,10 +38,3 @@ jobs:
       run: |
         chmod +x ./build-shared-library-and-publish-dotnet-app.sh
         ./build-shared-library-and-publish-dotnet-app.sh
-
-    # Step 6: Download the publish folder
-    - name: Upload publish folder as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: publish-folder
-        path: ./publish
