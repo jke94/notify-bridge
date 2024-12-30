@@ -3,7 +3,7 @@ name: Build and Publish
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
@@ -25,9 +25,15 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.x' # Replace with your required version
+        dotnet-version: '8.0.x'
 
-    # Step 4: Execute the script
+    # Step 4: Verify versions
+    - name: Verify installed versions
+      run: |
+        g++ --version
+        dotnet --version
+
+    # Step 5: Execute the script
     - name: Execute build and publish script
       run: |
         chmod +x ./build-shared-library-and-publish-dotnet-app.sh
